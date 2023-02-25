@@ -38,7 +38,7 @@ class Todotile extends StatelessWidget {
           height: 35,
           width: 35,
           decoration: BoxDecoration(
-              color: Color.fromARGB(255, 0, 0, 0), borderRadius: BorderRadius.circular(5)),
+              color: Color.fromARGB(219, 50, 50, 50), borderRadius: BorderRadius.circular(5)),
           child: IconButton(
             onPressed: deleteTile,
             color: Colors.white,
