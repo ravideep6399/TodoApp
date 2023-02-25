@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:login_signin/todo.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
+  var box = await Hive.openBox('mybox');
   runApp(const MyApp());
 }
 
@@ -50,23 +53,22 @@ class MyHomePage extends StatelessWidget {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(300, 80
-                  ),
-                  shadowColor: Color.fromARGB(255, 141, 12, 12),
-                  elevation: 20
-                  ,
-                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                  backgroundColor: Colors.red,
-                  ),
+                minimumSize: const Size(300, 80),
+                shadowColor: Color.fromARGB(255, 141, 12, 12),
+                elevation: 20,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                backgroundColor: Colors.red,
+              ),
               onPressed: (() {
                 Navigator.push(context,
                     MaterialPageRoute(builder: ((context) => const Todo())));
               }),
-              child: const Text("List",style: TextStyle(fontSize: 28
-
-              ),),
+              child: const Text(
+                "List",
+                style: TextStyle(fontSize: 28),
+              ),
             ),
-            
           ],
         ),
       ),

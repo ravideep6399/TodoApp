@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:login_signin/data/database.dart';
 import 'package:login_signin/widget/container.dart';
 import 'package:login_signin/widget/todotile.dart';
 
@@ -10,15 +12,25 @@ class Todo extends StatefulWidget {
 }
 
 class _TodoState extends State<Todo> {
+  final _mybox = Hive.box('mybox');
   final _newTask = TextEditingController();
+  TodoDatabase db = TodoDatabase();
+  @override
+  void initState() {
+    if (_mybox.get("TODOLIST") != null) {
+      db.loaddata();
+    }
+    super.initState();
+  }
 
   void saveNewTask() {
     setState(() {
-      todolist.add(_newTask.text);
-      taskCompleted.add(false);
+      db.todolist.add(_newTask.text);
+      db.taskCompleted.add(false);
       _newTask.clear();
     });
     Navigator.of(context).pop();
+    db.updateDatabase();
   }
 
   void callback() {
@@ -34,19 +46,18 @@ class _TodoState extends State<Todo> {
 
   void checkboxChanged(bool? value, int index) {
     setState(() {
-      taskCompleted[index] = !taskCompleted[index];
+      db.taskCompleted[index] = !db.taskCompleted[index];
     });
+    db.updateDatabase();
   }
 
-  void removeTile( int index) {
+  void removeTile(int index) {
     setState(() {
-      todolist.removeAt(index);
-      taskCompleted.removeAt(index);
+      db.todolist.removeAt(index);
+      db.taskCompleted.removeAt(index);
     });
+    db.updateDatabase();
   }
-
-  List<String> todolist = [];
-  List<bool> taskCompleted = [];
 
   @override
   Widget build(BuildContext context) {
@@ -57,28 +68,25 @@ class _TodoState extends State<Todo> {
           "Your List",
         ),
       ),
-      body:ListView.builder(
-              itemCount: todolist.length,
-              padding: EdgeInsets.only(top: 20),
-              itemBuilder: (context, index) {
-                return Todotile(
-                  task: todolist[index],
-                  taskcompleted: taskCompleted[index],
-                  onChanged: (value) => checkboxChanged(value, index),
-                  deleteTile: ()=>removeTile(index),
-                );
-              },
-            ),
-             floatingActionButton :FloatingActionButton(
-              elevation: 10,
-            onPressed: () {
-              callback();
-            },
-            child: const Icon(Icons.add),
-          ),
-          
-       
-      
+      body: ListView.builder(
+        itemCount: db.todolist.length,
+        padding: EdgeInsets.only(top: 20),
+        itemBuilder: (context, index) {
+          return Todotile(
+            task: db.todolist[index],
+            taskcompleted: db.taskCompleted[index],
+            onChanged: (value) => checkboxChanged(value, index),
+            deleteTile: () => removeTile(index),
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        elevation: 10,
+        onPressed: () {
+          callback();
+        },
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }
