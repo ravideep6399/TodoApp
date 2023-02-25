@@ -57,23 +57,9 @@ class _TodoState extends State<Todo> {
           "Your List",
         ),
       ),
-      body: Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            margin: const EdgeInsets.only(top: 50, bottom: 20),
-            child: const Text(
-              "All Todo's",
-              style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white),
-            ),
-          ),
-          Expanded(
-            child: ListView.builder(
+      body:ListView.builder(
               itemCount: todolist.length,
+              padding: EdgeInsets.only(top: 20),
               itemBuilder: (context, index) {
                 return Todotile(
                   task: todolist[index],
@@ -83,18 +69,16 @@ class _TodoState extends State<Todo> {
                 );
               },
             ),
-          ),
-          FloatingActionButton(
+             floatingActionButton :FloatingActionButton(
+              elevation: 10,
             onPressed: () {
               callback();
             },
             child: const Icon(Icons.add),
           ),
-          const SizedBox(
-            height: 30,
-          )
-        ],
-      )),
+          
+       
+      
     );
   }
 }

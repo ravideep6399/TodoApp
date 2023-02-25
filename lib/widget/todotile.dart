@@ -17,7 +17,7 @@ class Todotile extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 20),
       child: ListTile(
-        onTap: () {},
+        // onTap: () {},
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
         tileColor: Colors.white,
@@ -38,7 +38,7 @@ class Todotile extends StatelessWidget {
           height: 35,
           width: 35,
           decoration: BoxDecoration(
-              color: Colors.red, borderRadius: BorderRadius.circular(5)),
+              color: Color.fromARGB(255, 0, 0, 0), borderRadius: BorderRadius.circular(5)),
           child: IconButton(
             onPressed: deleteTile,
             color: Colors.white,
